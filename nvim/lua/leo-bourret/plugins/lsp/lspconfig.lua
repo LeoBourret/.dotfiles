@@ -241,6 +241,15 @@ return {
 			},
 		})
 
+		-- clangd
+		lspconfig.clangd.setup({
+			on_attach = on_attach, -- Utilise la fonction on_attach que tu as déjà définie
+			capabilities = capabilities, -- Utilise les capabilities que tu as déjà définies
+			-- Optionnel : Tu peux ajouter des settings spécifiques à clangd ici si tu en as besoin.
+			-- Par exemple, pour l'intégration de compile_commands.json, si tu en utilises.
+			-- cmd = { "/home/lebourre/.local/share/mason/bin/clangd" }, -- Pas nécessaire si mason-lspconfig est bien intégré, mais utile pour le debug si ça ne démarre toujours pas.
+		})
+
 		-- gopls
 		lspconfig.gopls.setup({
 			capabilities = capabilities,

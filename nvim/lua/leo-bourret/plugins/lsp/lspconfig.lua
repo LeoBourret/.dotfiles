@@ -33,7 +33,7 @@ return {
 				vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
 				opts.desc = "See available code actions"
-				vim.keymap.set({ "n", "v" }, "<leader>vca", function()
+				vim.keymap.set({ "n", "v" }, "<leader>ca", function()
 					vim.lsp.buf.code_action()
 				end, opts) -- see available code actions, in visual mode will apply to selection
 

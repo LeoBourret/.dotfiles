@@ -242,12 +242,17 @@ return {
 		})
 
 		-- clangd
-		lspconfig.clangd.setup({
-			on_attach = on_attach, -- Utilise la fonction on_attach que tu as déjà définie
-			capabilities = capabilities, -- Utilise les capabilities que tu as déjà définies
-			-- Optionnel : Tu peux ajouter des settings spécifiques à clangd ici si tu en as besoin.
-			-- Par exemple, pour l'intégration de compile_commands.json, si tu en utilises.
-			-- cmd = { "/home/lebourre/.local/share/mason/bin/clangd" }, -- Pas nécessaire si mason-lspconfig est bien intégré, mais utile pour le debug si ça ne démarre toujours pas.
+		require("lspconfig").clangd.setup({
+			on_attach = function(client, bufnr)
+				-- ... tes mappings ...
+
+				-- Désactive le formatage si clangd le propose
+				-- Ceci est CRUCIAL si tu veux désactiver le formatage LSP
+				client.server_capabilities.documentFormattingProvider = false
+				client.server_capabilities.documentRangeFormattingProvider = false
+			end,
+			capabilities = capabilities,
+			-- ... autres options ...
 		})
 
 		-- gopls

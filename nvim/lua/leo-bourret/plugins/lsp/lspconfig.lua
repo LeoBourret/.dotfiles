@@ -230,6 +230,7 @@ return {
 				preferences = {
 					includeCompletionsForModuleExports = true,
 					includeCompletionsForImportStatements = true,
+					preferTypeOnlyAutoImports = false,
 				},
 				plugins = {
 					{
@@ -238,7 +239,23 @@ return {
 						languages = { "vue" },
 					},
 				},
+				disableOrganizeImports = true,
 			},
+			on_attach = function(client, bufnr)
+				-- sécurité supplémentaire : enlever la capability "organizeImports"
+				if client.server_capabilities.codeActionProvider then
+					local ca = client.server_capabilities.codeActionProvider
+					if type(ca) == "table" and ca.codeActionKinds then
+						local newKinds = {}
+						for _, kind in ipairs(ca.codeActionKinds) do
+							if kind ~= "source.organizeImports" then
+								table.insert(newKinds, kind)
+							end
+						end
+						ca.codeActionKinds = newKinds
+					end
+				end
+			end,
 		})
 
 		-- clangd
